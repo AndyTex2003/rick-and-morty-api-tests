@@ -1,6 +1,6 @@
 const request = require('supertest');
 
-const baseUrl = 'https://rickandmortyapi.com/api';
+const { baseUrl } = require('../config/config.js')
 
 const getEpisodes = () => {
     return request(baseUrl)
