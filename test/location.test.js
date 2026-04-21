@@ -2,9 +2,9 @@ const { expect } = require('chai');
 const { getLocations, getLocationByName, getLocationById } = require('../services/services.locationService.js');
 
 describe('Rick and Morty API', () => {
-    describe('Listagem de Location', () => {
+    describe('Location', () => {
 
-        it('Deve retornar status 200 e validar estrutura das locations da página 1', async () => {
+        it('Deve retornar 200 e validar estrutura da lista de episódios', async () => {
             const response = await getLocations();
 
             expect(response.status).to.equal(200);
@@ -33,9 +33,9 @@ describe('Rick and Morty API', () => {
 
     });
 
-    describe('Filtros de Location por nome', () => {
+    describe('Filtros de localização por nome', () => {
 
-        it('Deve retornar locations filtradas pelo nome "Earth"', async () => {
+        it('Deve retornar 200 ao filtrar localizações pelo nome "Earth"', async () => {
             const response = await getLocationByName('Earth');
 
             expect(response.status).to.equal(200);
@@ -49,7 +49,7 @@ describe('Rick and Morty API', () => {
             expect(response.body).to.have.property('info');
         });
 
-        it('Deve retornar erro ao buscar location com nome inexistente', async () => {
+        it('Deve retornar 404 ao buscar localização com nome inexistente', async () => {
             const response = await getLocationByName('Nome_12345');
 
             expect(response.status).to.equal(404);
@@ -57,21 +57,22 @@ describe('Rick and Morty API', () => {
         });
     });
 
-    describe('Busca de Location por ID', () => {
+    describe('Busca de localização por ID', () => {
 
-        it('Deve retornar uma location válida ao buscar por ID', async () => {
+        it('Deve retornar 200 ao buscar localização por ID válido', async () => {
             const response = await getLocationById(3)
 
             expect(response.status).to.equal(200);
-            expect(response.body).to.have.property('id').that.is.a('number');
-            expect(response.body.name).to.be.a('string');
             expect(response.body).to.include({
                 id: 3,
                 name: 'Citadel of Ricks'
             });
+
+            expect(response.body).to.have.property('type').that.is.a('string');
+            expect(response.body).to.have.property('dimension').that.is.a('string');
         });
 
-        it('Deve retornar 404 para location inexistente', async () => {
+        it('Deve retornar 404 ao buscar localização com ID inexistente', async () => {
             const response = await getLocationById(999999);
 
             expect(response.status).to.equal(404);
